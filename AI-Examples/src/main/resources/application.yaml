@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: gigachat-json-assistant
+  ai:
+    gigachat:
+      auth:
+        bearer:
+          api-key:
+        scope: GIGACHAT_API_PERS  # Или GIGACHAT_API_B2B / GIGACHAT_API_CORP
+        unsafe-ssl: false  # В production используйте сертификаты НУЦ Минцифры
+          # Если unsafe-ssl: false, нужно указать путь к сертификату:
+          # certs:
+          #   ca-certs: file:/path/to/russian_trusted_root_ca.cer
+      chat:
+        options:
+          model: GigaChat-2
+          temperature: 0.3  # Низкая температура для детерминированных ответов
+          max-tokens: 1024
+          # Включаем режим JSON
+          response-format:
+            type: json_object
+        # Включение логирования prompt и completion через observability
+        observations:
+          log-prompt: true              # Логировать отправляемый промпт
+          log-completion: true          # Логировать полученный ответ
+# Настройки логирования Spring AI
+logging:
+  level:
+    # Базовый уровень для GigaChat
+    chat.giga: DEBUG
+    # Наблюдаемость Spring AI
+    org.springframework.ai.chat.observation: DEBUG
+    org.springframework.ai.chat.client.observation: DEBUG
