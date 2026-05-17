@@ -5,7 +5,7 @@ spring:
     gigachat:
       auth:
         bearer:
-          api-key:
+          api-key: MDE5ZTJmYzMtY2JmNS03N2E0LTgyYzQtNDMyM2M4YzZjMGE4OM2ZmOTdjLWMxMGMtNDk4NC1hODM1LTNiN2MyZDk5ZmJiNw==
         scope: GIGACHAT_API_PERS  # Или GIGACHAT_API_B2B / GIGACHAT_API_CORP
         unsafe-ssl: false  # В production используйте сертификаты НУЦ Минцифры
           # Если unsafe-ssl: false, нужно указать путь к сертификату:
