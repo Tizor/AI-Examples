@@ -1,0 +1,18 @@
+localhost:8080/api/assistant/ask
+
+{
+    "question": "Какой статус выполнения моего запроса по проблеме?"
+}
+
+{
+    "question": "Что с заказом?"
+}
+
+{
+    "question": "Какая погода в Москве на завтра?"
+}
+{
+    "question": "Что по оплате?"
+}
+
+localhost:8080/api/assistant/classify
