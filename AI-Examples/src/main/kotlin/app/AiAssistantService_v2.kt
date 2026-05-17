@@ -1,15 +1,12 @@
 package app
 
-import app.models.ClassificationResponse
-import app.models.OrderResponse
-import app.models.PaymentResponse
-import app.models.SupportResponse
-import app.models.UnknownResponse
-import app.models.WeatherResponse
+import app.models.*
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.ai.chat.client.ChatClient
+import org.springframework.ai.converter.BeanOutputConverter
 import org.springframework.stereotype.Service
+
 
 @Service
 open class AiAssistantService_v2 (
@@ -184,10 +181,12 @@ open class AiAssistantService_v2 (
      * Запрос в службу поддержки
      */
     private fun getSupportResponse(userQuestion: String): SupportResponse? {
+        val converter = BeanOutputConverter<SupportResponse>(SupportResponse::class.java)
+        val schema = converter.getJsonSchema()
         val systemPrompt = """
             Ты - ассистент службы поддержки. Обработай вопрос пользователя.
             
-            Верни ТОЛЬКО JSON в точном соответствии со схемой:
+            Верни ТОЛЬКО JSON в точном соответствии со схемой ${schema}:
             {
                 "ticket_id": "сгенерированный ID обращения (строка формата TICKET-XXXXX)",
                 "issue_type": "тип проблемы (technical/billing/general)",
@@ -196,10 +195,9 @@ open class AiAssistantService_v2 (
             }
             
             """.trimIndent()
-
         return chatClient2!!.prompt()
             .system(systemPrompt)
-            .user(userQuestion)
+            .user (userQuestion)
             .call()
             .entity<SupportResponse?>(SupportResponse::class.java)
     }
